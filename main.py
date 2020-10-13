@@ -6,6 +6,7 @@ import utility
 import tcpserver
 import concurrent_fetcher
 import converter
+import merger
 
 
 def main():
@@ -22,15 +23,7 @@ def main():
 
     data = converter.convert_to_json(data)
 
-    merged_json = []
-
-    for json_list in data:
-        if 'dataset' in json.loads(json_list):
-            for value in json.loads(json_list)['dataset']['record']:
-                merged_json.append(value)
-        else:
-            for value in json.loads(json_list):
-                merged_json.append(value)
+    merged_json = merger.merger(data)
 
     tcpserver.tcpserver(merged_json)
 
